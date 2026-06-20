@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Outbound — Turn Competitor Reviews Into Better Listings</title>
+<meta name="description" content="Discover exactly what buyers complain about and transform those insights into higher-converting Amazon listings, stronger positioning, and better customer trust." />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        colors: {
+          canvas: '#F6F6F4',
+          surface: '#FFFFFF',
+          ink: '#0A0A0A',
+          muted: '#71717A',
+          hair: '#E6E6E2',
+          accent: '#2563EB',
+          'accent-dim': '#1D4ED8',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  ::selection { background: #2563EB; color: #fff; }
+  body {
+    background:
+      radial-gradient(circle at 1px 1px, #E2E2DD 1px, transparent 0) 0 0 / 22px 22px,
+      #F6F6F4;
+  }
+  .fade-up {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .55s cubic-bezier(.2,.7,.2,1), transform .55s cubic-bezier(.2,.7,.2,1);
+  }
+  .fade-up.visible { opacity: 1; transform: none; }
+  .arrow-flow { color: #2563EB; font-weight: 600; font-size: 18px; line-height: 1; }
+</style>
+</head>
+<body class="font-sans text-ink antialiased">
+
+<!-- ── Nav ─────────────────────────────────────────────────────────────── -->
+<header class="border-b border-hair bg-canvas/80 backdrop-blur sticky top-0 z-20">
+  <div class="max-w-5xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
+    <span class="font-mono text-[13px] font-semibold tracking-tight text-ink">Outbound</span>
+    <a href="#beta"
+       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-[13px] font-medium hover:bg-accent-dim transition-colors">
+      Get Free Beta Access
+    </a>
+  </div>
+</header>
+
+<!-- ── Section 1: Hero ──────────────────────────────────────────────────── -->
+<section class="pt-20 pb-16 px-5 sm:px-8">
+  <div class="max-w-3xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-hair bg-surface text-[11px] font-mono text-muted uppercase tracking-wider mb-6">
+      <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
+      Early Beta · Free Access
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-semibold text-ink leading-tight tracking-tight mb-5 fade-up">
+      Turn Competitor Reviews Into<br class="hidden sm:block" /> Listings That Convert Better
+    </h1>
+    <p class="text-[17px] text-muted leading-relaxed max-w-xl mx-auto mb-8 fade-up">
+      Discover exactly what buyers complain about and transform those insights into higher-converting Amazon listings, stronger positioning, and better customer trust.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 fade-up">
+      <a href="#beta"
+         class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors shadow-sm">
+        Get Free Beta Access
+      </a>
+      <a href="#demo"
+         class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-hair bg-surface text-[14px] font-medium text-ink hover:border-ink/30 transition-colors">
+        See Demo Examples
+      </a>
+    </div>
+    <p class="text-[12px] text-muted/70 mt-4 fade-up">Currently onboarding a small group of ecommerce sellers.</p>
+
+    <!-- Visual flow -->
+    <div class="mt-14 flex items-center justify-center gap-0 fade-up">
+      <div class="flex flex-col sm:flex-row items-center gap-0">
+        <div class="px-5 py-3.5 rounded-xl border border-hair bg-surface shadow-sm text-left min-w-[150px]">
+          <p class="font-mono text-[9px] uppercase tracking-wider text-muted mb-1">Input</p>
+          <p class="text-[13px] font-medium text-ink">Competitor Reviews</p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center mx-3 text-hair gap-1 sm:gap-0">
+          <span class="hidden sm:block arrow-flow">→</span>
+          <span class="sm:hidden arrow-flow">↓</span>
+        </div>
+        <div class="px-5 py-3.5 rounded-xl border border-accent/30 bg-accent/5 shadow-sm text-left min-w-[150px]">
+          <p class="font-mono text-[9px] uppercase tracking-wider text-accent mb-1">Analysis</p>
+          <p class="text-[13px] font-medium text-ink">Buyer Pain Points</p>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center mx-3 text-hair gap-1 sm:gap-0">
+          <span class="hidden sm:block arrow-flow">→</span>
+          <span class="sm:hidden arrow-flow">↓</span>
+        </div>
+        <div class="px-5 py-3.5 rounded-xl border border-hair bg-surface shadow-sm text-left min-w-[150px]">
+          <p class="font-mono text-[9px] uppercase tracking-wider text-muted mb-1">Output</p>
+          <p class="text-[13px] font-medium text-ink">AI Suggestions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 2: Problem ───────────────────────────────────────────────── -->
+<section class="py-16 px-5 sm:px-8 border-t border-hair">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-2xl sm:text-3xl font-semibold text-ink text-center leading-snug mb-3 fade-up">
+      Most Sellers Read Reviews.<br />Smart Sellers Learn From Them.
+    </h2>
+    <p class="text-[15px] text-muted text-center mb-2 fade-up">Every negative review contains hidden opportunities to improve positioning, messaging, and product presentation.</p>
+    <p class="text-[13px] text-muted/70 text-center mb-10 fade-up">Common complaints your competitors are receiving right now:</p>
+
+    <div class="grid sm:grid-cols-2 gap-3 mb-10">
+      <div class="flex items-start gap-3 p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-5 h-5 rounded-full border border-red-200 bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-red-400 text-[10px]">✕</span>
+        </div>
+        <p class="text-[13px] text-zinc-700 leading-relaxed">"The sizing runs small — doesn't fit as described."</p>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-5 h-5 rounded-full border border-red-200 bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-red-400 text-[10px]">✕</span>
+        </div>
+        <p class="text-[13px] text-zinc-700 leading-relaxed">"Broke after a few weeks. Poor build quality."</p>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-5 h-5 rounded-full border border-red-200 bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-red-400 text-[10px]">✕</span>
+        </div>
+        <p class="text-[13px] text-zinc-700 leading-relaxed">"Uncomfortable after extended use."</p>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-5 h-5 rounded-full border border-red-200 bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-red-400 text-[10px]">✕</span>
+        </div>
+        <p class="text-[13px] text-zinc-700 leading-relaxed">"Missing the feature I needed most."</p>
+      </div>
+      <div class="flex items-start gap-3 p-4 rounded-xl border border-hair bg-surface sm:col-span-2 fade-up">
+        <div class="w-5 h-5 rounded-full border border-red-200 bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
+          <span class="text-red-400 text-[10px]">✕</span>
+        </div>
+        <p class="text-[13px] text-zinc-700 leading-relaxed">"Product looked different from what was advertised."</p>
+      </div>
+    </div>
+
+    <div class="p-5 rounded-xl border border-accent/20 bg-accent/5 fade-up">
+      <p class="text-[14px] text-zinc-700 leading-relaxed text-center">
+        Outbound automatically transforms those complaints into
+        <span class="font-medium text-ink">specific listing improvements</span>,
+        <span class="font-medium text-ink">sharper ad angles</span>, and
+        <span class="font-medium text-ink">stronger positioning</span> — so you can address buyer concerns before they become your own 1-star reviews.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 3: How It Works ─────────────────────────────────────────── -->
+<section class="py-16 px-5 sm:px-8 border-t border-hair">
+  <div class="max-w-3xl mx-auto">
+    <p class="font-mono text-[10px] uppercase tracking-wider text-muted text-center mb-3 fade-up">Process</p>
+    <h2 class="text-2xl sm:text-3xl font-semibold text-ink text-center mb-12 fade-up">How It Works</h2>
+
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="relative p-5 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg bg-ink flex items-center justify-center mb-4">
+          <span class="text-white text-[11px] font-mono font-semibold">1</span>
+        </div>
+        <h3 class="text-[14px] font-semibold text-ink mb-2">Paste Product Information</h3>
+        <p class="text-[12px] text-muted leading-relaxed">Describe your product, target customers, and key features.</p>
+      </div>
+      <div class="relative p-5 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg bg-ink flex items-center justify-center mb-4">
+          <span class="text-white text-[11px] font-mono font-semibold">2</span>
+        </div>
+        <h3 class="text-[14px] font-semibold text-ink mb-2">Paste Competitor Reviews</h3>
+        <p class="text-[12px] text-muted leading-relaxed">Copy 5–50 competitor reviews from Amazon or any marketplace.</p>
+      </div>
+      <div class="relative p-5 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg bg-accent flex items-center justify-center mb-4">
+          <span class="text-white text-[11px] font-mono font-semibold">3</span>
+        </div>
+        <h3 class="text-[14px] font-semibold text-ink mb-2">Generate Listing Insights</h3>
+        <p class="text-[12px] text-muted leading-relaxed">Get titles, bullet points, ad angles, and reply templates in seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 4: Demo Cases ───────────────────────────────────────────── -->
+<section id="demo" class="py-16 px-5 sm:px-8 border-t border-hair">
+  <div class="max-w-3xl mx-auto">
+    <p class="font-mono text-[10px] uppercase tracking-wider text-muted text-center mb-3 fade-up">Examples</p>
+    <h2 class="text-2xl sm:text-3xl font-semibold text-ink text-center mb-3 fade-up">See It In Action</h2>
+    <p class="text-[14px] text-muted text-center mb-10 fade-up">Real reviews → real insights, across any product category.</p>
+
+    <div class="grid sm:grid-cols-3 gap-4">
+
+      <!-- Case 1: Wireless Earbuds -->
+      <div class="p-5 rounded-xl border border-hair bg-surface flex flex-col gap-4 fade-up">
+        <div>
+          <span class="inline-block font-mono text-[9px] uppercase tracking-wider text-muted border border-hair rounded-md px-2 py-0.5 mb-3">Wireless Earbuds</span>
+          <div class="p-3 rounded-lg bg-zinc-50 border border-hair mb-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5">Competitor Review</p>
+            <p class="text-[12px] text-zinc-600 italic leading-relaxed">"Battery drains in under 2 hours even with ANC off. Had to charge it twice just to get through my commute."</p>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col gap-3">
+          <div>
+            <p class="font-mono text-[9px] uppercase tracking-wider text-red-400 mb-1.5">Buyer Pain Point</p>
+            <p class="text-[13px] font-medium text-ink">Battery life too short for daily use</p>
+          </div>
+          <div class="border-t border-hair pt-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-accent mb-1.5">AI Suggestion</p>
+            <p class="text-[12px] text-zinc-700 leading-relaxed">Lead with total playback hours in title. Add a bullet: "40-HOUR BATTERY — Built for long commutes, workdays, and gym sessions without stopping to recharge."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case 2: Dog Harness -->
+      <div class="p-5 rounded-xl border border-hair bg-surface flex flex-col gap-4 fade-up">
+        <div>
+          <span class="inline-block font-mono text-[9px] uppercase tracking-wider text-muted border border-hair rounded-md px-2 py-0.5 mb-3">Dog Harness</span>
+          <div class="p-3 rounded-lg bg-zinc-50 border border-hair mb-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5">Competitor Review</p>
+            <p class="text-[12px] text-zinc-600 italic leading-relaxed">"My dog backed out of this harness on the second walk. Scary experience. The chest strap has no way to adjust tightly enough."</p>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col gap-3">
+          <div>
+            <p class="font-mono text-[9px] uppercase tracking-wider text-red-400 mb-1.5">Buyer Pain Point</p>
+            <p class="text-[13px] font-medium text-ink">Dog backs out — fit not secure enough</p>
+          </div>
+          <div class="border-t border-hair pt-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-accent mb-1.5">AI Suggestion</p>
+            <p class="text-[12px] text-zinc-700 leading-relaxed">Highlight dual-adjustment straps and rear clip in title. Bullet: "SECURE-FIT DESIGN — Dual adjustable straps help reduce backing out, even for escape-prone dogs."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case 3: Travel Backpack -->
+      <div class="p-5 rounded-xl border border-hair bg-surface flex flex-col gap-4 fade-up">
+        <div>
+          <span class="inline-block font-mono text-[9px] uppercase tracking-wider text-muted border border-hair rounded-md px-2 py-0.5 mb-3">Travel Backpack</span>
+          <div class="p-3 rounded-lg bg-zinc-50 border border-hair mb-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5">Competitor Review</p>
+            <p class="text-[12px] text-zinc-600 italic leading-relaxed">"Zipper on the main compartment broke after 3 weeks. I was mid-trip. Had to use a binder clip to keep it closed the rest of the journey."</p>
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col gap-4">
+          <div>
+            <p class="font-mono text-[9px] uppercase tracking-wider text-red-400 mb-1.5">Buyer Pain Point</p>
+            <p class="text-[13px] font-medium text-ink">Zipper failure during travel</p>
+          </div>
+          <div class="border-t border-hair pt-3">
+            <p class="font-mono text-[9px] uppercase tracking-wider text-accent mb-1.5">AI Suggestion</p>
+            <p class="text-[12px] text-zinc-700 leading-relaxed">Mention zipper construction in title. Bullet: "REINFORCED ZIPPERS — YKK zippers on all main compartments, built for frequent opening and closing during travel."</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 5: What You Get ─────────────────────────────────────────── -->
+<section class="py-16 px-5 sm:px-8 border-t border-hair">
+  <div class="max-w-3xl mx-auto">
+    <p class="font-mono text-[10px] uppercase tracking-wider text-muted text-center mb-3 fade-up">Features</p>
+    <h2 class="text-2xl sm:text-3xl font-semibold text-ink text-center mb-3 fade-up">
+      Everything You Need To Improve Listings Faster
+    </h2>
+    <p class="text-[14px] text-muted text-center mb-10 fade-up">One input. Nine outputs. Ready to use.</p>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.2"/><path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Buyer Pain Points</h3>
+        <p class="text-[11px] text-muted leading-relaxed">Extracted directly from competitor reviews with evidence and opportunity notes.</p>
+      </div>
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Listing Titles</h3>
+        <p class="text-[11px] text-muted leading-relaxed">4 variations — SEO-focused, benefit-driven, short, and premium.</p>
+      </div>
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><path d="M3 4h1m2 0h7M3 8h1m2 0h7M3 12h1m2 0h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Bullet Points</h3>
+        <p class="text-[11px] text-muted leading-relaxed">5 bullet points in FEATURE — Benefit format, each addressing a real pain point.</p>
+      </div>
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Product Descriptions</h3>
+        <p class="text-[11px] text-muted leading-relaxed">Short (80–120 words) and long (150–200 words) versions, buyer-first tone.</p>
+      </div>
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><path d="M2 11V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v6" stroke="currentColor" stroke-width="1.2"/><path d="M1 11h14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Ad Angles</h3>
+        <p class="text-[11px] text-muted leading-relaxed">4–5 angle-based ad copy sets with Hook, Body, and CTA — ready to test.</p>
+      </div>
+      <div class="p-4 rounded-xl border border-hair bg-surface fade-up">
+        <div class="w-7 h-7 rounded-lg border border-hair bg-canvas flex items-center justify-center mb-3">
+          <svg class="w-3.5 h-3.5 text-muted" viewBox="0 0 16 16" fill="none"><path d="M2 12V5a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7" stroke="currentColor" stroke-width="1.2"/><path d="M5 14h6M8 12v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="text-[13px] font-semibold text-ink mb-1">Customer Reply Templates</h3>
+        <p class="text-[11px] text-muted leading-relaxed">Polite, professional replies for the most common negative review scenarios.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Section 6: Beta Signup ──────────────────────────────────────────── -->
+<section id="beta" class="py-16 px-5 sm:px-8 border-t border-hair">
+  <div class="max-w-lg mx-auto">
+    <p class="font-mono text-[10px] uppercase tracking-wider text-muted text-center mb-3 fade-up">Early Access</p>
+    <h2 class="text-2xl sm:text-3xl font-semibold text-ink text-center mb-3 fade-up">Get Free Beta Access</h2>
+    <p class="text-[14px] text-muted text-center mb-2 fade-up">
+      We're looking for a small group of ecommerce sellers to test the product and provide feedback.
+    </p>
+    <p class="text-[12px] text-muted/60 text-center mb-8 fade-up">Built with feedback from ecommerce operators. Looking for early beta users to help shape the product.</p>
+
+    <form id="betaForm" class="bg-surface border border-hair rounded-2xl p-6 sm:p-8 fade-up" onsubmit="handleSubmit(event)">
+      <p class="text-[13px] text-muted mb-5 text-center">Join the beta and get early access to new listing intelligence tools.</p>
+      <div class="flex flex-col gap-4">
+        <div>
+          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="name">Name</label>
+          <input id="name" type="text" required placeholder="Your name"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition" />
+        </div>
+        <div>
+          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="email">Email</label>
+          <input id="email" type="email" required placeholder="your@email.com"
+            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition" />
+        </div>
+        <div>
+          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="storeType">Store Type</label>
+          <select id="storeType" required
+            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition appearance-none">
+            <option value="" disabled selected>Select your store type</option>
+            <option value="amazon">Amazon Seller</option>
+            <option value="shopify">Shopify Seller</option>
+            <option value="both">Amazon + Shopify</option>
+            <option value="etsy">Etsy Seller</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <button type="submit" id="submitBtn"
+          class="w-full py-3 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors mt-1">
+          Join Beta
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────────────────────────── -->
+<footer class="border-t border-hair py-8 px-5 sm:px-8">
+  <div class="max-w-3xl mx-auto text-center">
+    <span class="font-mono text-[12px] text-muted">Outbound — Review Intelligence for Ecommerce Sellers</span>
+  </div>
+</footer>
+
+<script>
+  /* ── Scroll-triggered fade-up ─────────────────────────────────────── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ── Beta form ────────────────────────────────────────────────────── */
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const name      = document.getElementById('name').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const storeType = document.getElementById('storeType').value;
+
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    const entry = { name, email, storeType, ts: new Date().toISOString() };
+    try {
+      const existing = JSON.parse(localStorage.getItem('beta_signups') || '[]');
+      existing.push(entry);
+      localStorage.setItem('beta_signups', JSON.stringify(existing));
+    } catch {}
+
+    setTimeout(() => {
+      document.getElementById('betaForm').innerHTML = `
+        <div class="text-center py-6">
+          <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-5 h-5 text-accent" viewBox="0 0 20 20" fill="none"><path d="M4 10l4.5 4.5L16 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <p class="text-[14px] font-medium text-ink mb-1">You're on the list, ${escHtml(name)}.</p>
+          <p class="text-[13px] text-muted">We'll reach out to ${escHtml(email)} when your beta access is ready.</p>
+        </div>`;
+    }, 600);
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+</script>
+</body>
+</html>
