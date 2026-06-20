@@ -6,6 +6,7 @@
 <title>Outbound — Turn Competitor Reviews Into Better Listings</title>
 <meta name="description" content="Discover exactly what buyers complain about and transform those insights into higher-converting Amazon listings, stronger positioning, and better customer trust." />
 <script src="https://cdn.tailwindcss.com"></script>
+<script async src="https://tally.so/widgets/embed.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -52,10 +53,10 @@
 <header class="border-b border-hair bg-canvas/80 backdrop-blur sticky top-0 z-20">
   <div class="max-w-5xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
     <span class="font-mono text-[13px] font-semibold tracking-tight text-ink">Outbound</span>
-    <a href="#beta"
-       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-[13px] font-medium hover:bg-accent-dim transition-colors">
+    <button data-tally-open="TALLY_FORM_ID" data-tally-layout="modal" data-tally-width="480"
+       class="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-accent text-white text-[13px] font-medium hover:bg-accent-dim transition-colors cursor-pointer">
       Get Free Beta Access
-    </a>
+    </button>
   </div>
 </header>
 
@@ -73,10 +74,10 @@
       Discover exactly what buyers complain about and transform those insights into higher-converting Amazon listings, stronger positioning, and better customer trust.
     </p>
     <div class="flex flex-col sm:flex-row items-center justify-center gap-3 fade-up">
-      <a href="#beta"
-         class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors shadow-sm">
+      <button data-tally-open="TALLY_FORM_ID" data-tally-layout="modal" data-tally-width="480"
+         class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors shadow-sm cursor-pointer">
         Get Free Beta Access
-      </a>
+      </button>
       <a href="#demo"
          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-hair bg-surface text-[14px] font-medium text-ink hover:border-ink/30 transition-colors">
         See Demo Examples
@@ -339,37 +340,13 @@
     </p>
     <p class="text-[12px] text-muted/60 text-center mb-8 fade-up">Built with feedback from ecommerce operators. Looking for early beta users to help shape the product.</p>
 
-    <form id="betaForm" class="bg-surface border border-hair rounded-2xl p-6 sm:p-8 fade-up" onsubmit="handleSubmit(event)">
-      <p class="text-[13px] text-muted mb-5 text-center">Join the beta and get early access to new listing intelligence tools.</p>
-      <div class="flex flex-col gap-4">
-        <div>
-          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="name">Name</label>
-          <input id="name" type="text" required placeholder="Your name"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition" />
-        </div>
-        <div>
-          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="email">Email</label>
-          <input id="email" type="email" required placeholder="your@email.com"
-            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition" />
-        </div>
-        <div>
-          <label class="block font-mono text-[9px] uppercase tracking-wider text-muted mb-1.5" for="storeType">Store Type</label>
-          <select id="storeType" required
-            class="w-full px-3.5 py-2.5 rounded-lg border border-hair bg-canvas text-[13px] text-ink focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/10 transition appearance-none">
-            <option value="" disabled selected>Select your store type</option>
-            <option value="amazon">Amazon Seller</option>
-            <option value="shopify">Shopify Seller</option>
-            <option value="both">Amazon + Shopify</option>
-            <option value="etsy">Etsy Seller</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <button type="submit" id="submitBtn"
-          class="w-full py-3 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors mt-1">
-          Join Beta
-        </button>
-      </div>
-    </form>
+    <div class="flex flex-col items-center gap-4 fade-up">
+      <button data-tally-open="TALLY_FORM_ID" data-tally-layout="modal" data-tally-width="480"
+        class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-xl bg-accent text-white text-[14px] font-medium hover:bg-accent-dim transition-colors shadow-sm cursor-pointer">
+        Join Beta — It's Free
+      </button>
+      <p class="text-[12px] text-muted/60">Takes 30 seconds. No credit card required.</p>
+    </div>
   </div>
 </section>
 
@@ -387,39 +364,6 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  /* ── Beta form ────────────────────────────────────────────────────── */
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const name      = document.getElementById('name').value.trim();
-    const email     = document.getElementById('email').value.trim();
-    const storeType = document.getElementById('storeType').value;
-
-    btn.disabled = true;
-    btn.textContent = 'Submitting…';
-
-    const entry = { name, email, storeType, ts: new Date().toISOString() };
-    try {
-      const existing = JSON.parse(localStorage.getItem('beta_signups') || '[]');
-      existing.push(entry);
-      localStorage.setItem('beta_signups', JSON.stringify(existing));
-    } catch {}
-
-    setTimeout(() => {
-      document.getElementById('betaForm').innerHTML = `
-        <div class="text-center py-6">
-          <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-4">
-            <svg class="w-5 h-5 text-accent" viewBox="0 0 20 20" fill="none"><path d="M4 10l4.5 4.5L16 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <p class="text-[14px] font-medium text-ink mb-1">You're on the list, ${escHtml(name)}.</p>
-          <p class="text-[13px] text-muted">We'll reach out to ${escHtml(email)} when your beta access is ready.</p>
-        </div>`;
-    }, 600);
-  }
-
-  function escHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
 </script>
 </body>
 </html>
