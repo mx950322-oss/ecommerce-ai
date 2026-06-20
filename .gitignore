@@ -16,3 +16,16 @@ __pycache__/
 # 系统自动生成的文件
 .DS_Store
 Thumbs.db
+
+# 测试截图和临时文件
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.xlsx
+*.xls
+.claude/
+
+# 修改清单文档
+修改清单*.txt
+*.docx
