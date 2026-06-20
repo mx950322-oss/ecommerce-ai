@@ -1,0 +1,11 @@
+# 这个文件列出了项目需要的所有 Python 库。
+# 之后用一条命令 pip install -r requirements.txt 就能一次性全部装好,
+# 不用手敲一长串库名,也不会漏装。
+
+fastapi              # Web 后台框架
+uvicorn[standard]    # 运行 FastAPI 的服务器
+httpx                # 给 DeepSeek 发请求用的网络库(异步)
+pydantic             # 校验数据格式
+aiosqlite            # 异步操作 SQLite 数据库
+stripe               # Stripe 支付
+python-dotenv        # 读取 .env 配置文件

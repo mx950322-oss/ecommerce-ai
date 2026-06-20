@@ -1,0 +1,18 @@
+# 虚拟环境:体积大、因人而异,不需要进版本库
+venv/
+
+# 密钥配置文件:含有真实的 API key,绝对不能上传
+.env
+
+# 本地数据库:测试数据,不需要带着走
+reviews.db
+reviews.db-wal
+reviews.db-shm
+
+# Python 运行时产生的缓存文件
+__pycache__/
+*.pyc
+
+# 系统自动生成的文件
+.DS_Store
+Thumbs.db

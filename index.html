@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Outbound — Copywriting & Review Intelligence</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+        colors: {
+          canvas: '#F6F6F4',
+          surface: '#FFFFFF',
+          ink: '#0A0A0A',
+          muted: '#71717A',
+          hair: '#E6E6E2',
+          accent: '#2563EB',
+          'accent-dim': '#1D4ED8',
+        },
+      },
+    },
+  };
+</script>
+<style>
+  ::selection { background: #2563EB; color: #fff; }
+  body { background:
+      radial-gradient(circle at 1px 1px, #E2E2DD 1px, transparent 0) 0 0 / 22px 22px,
+      #F6F6F4; }
+  .reveal { opacity: 0; transform: translateY(8px); animation: reveal .55s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes reveal { to { opacity: 1; transform: none; } }
+  .spin { animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .pulse-dot { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:.35; } 50% { opacity:1; } }
+  .caret::after { content:'▍'; color:#2563EB; animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  textarea { scrollbar-width: thin; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .spin, .pulse-dot, .caret::after { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body class="font-sans text-ink antialiased min-h-screen">
+
+  <!-- 顶栏 -->
+  <header class="border-b border-hair bg-canvas/80 backdrop-blur sticky top-0 z-10">
+    <div class="max-w-[860px] mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-7 h-7 bg-ink rounded-[7px] flex items-center justify-center">
+          <div class="w-2.5 h-2.5 bg-accent rounded-[2px] rotate-45"></div>
+        </div>
+        <div class="leading-none">
+          <div class="font-mono text-[13px] font-semibold tracking-tight">outbound</div>
+          <div class="font-mono text-[10px] text-muted tracking-[0.12em] mt-0.5">AI tools for ecommerce sellers</div>
+        </div>
+      </div>
+      <button id="endpointBtn" class="flex items-center gap-2 font-mono text-[11px] text-muted hover:text-ink transition-colors">
+        <span id="statusDot" class="w-1.5 h-1.5 rounded-full bg-muted pulse-dot"></span>
+        <span id="endpointLabel">localhost:8000</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-[860px] mx-auto px-5 sm:px-6 pt-10 sm:pt-16 pb-24">
+
+    <div class="reveal text-center mb-6 sm:mb-8">
+      <p class="font-mono text-[11px] tracking-[0.22em] uppercase text-muted mb-3">Review-driven · Amazon · Shopify · Ads</p>
+      <h1 class="text-[28px] sm:text-[34px] font-semibold tracking-tight leading-[1.15]">
+        Turn competitor reviews into<br class="hidden sm:block" /> better Amazon listings.
+      </h1>
+      <p class="text-[14px] sm:text-[15px] text-muted mt-3 max-w-[520px] mx-auto leading-relaxed">
+        Paste competitor reviews. Find buyer pain points. Generate titles, bullet points, descriptions, and ad angles in seconds.
+      </p>
+    </div>
+
+    <!-- 平台选择 -->
+    <div class="reveal text-center mb-5" style="animation-delay:50ms">
+      <div class="inline-flex items-center gap-2">
+        <button data-platform="Amazon" class="platform-btn font-mono text-[11px] px-4 py-2 rounded-xl border transition-all whitespace-nowrap">Amazon Listing</button>
+        <button data-platform="Review" class="platform-btn font-mono text-[11px] px-4 py-2 rounded-xl border transition-all whitespace-nowrap">Review Analysis</button>
+        <button data-platform="Ads" class="platform-btn font-mono text-[11px] px-4 py-2 rounded-xl border transition-all whitespace-nowrap">Ad Angles</button>
+      </div>
+      <p class="font-mono text-[10px] text-muted/55 mt-2">Also useful for Shopify, Etsy, and other online stores.</p>
+    </div>
+
+    <!-- 控制台 -->
+    <section class="reveal bg-surface border border-hair rounded-2xl p-2.5 transition-shadow focus-within:shadow-[0_0_0_4px_rgba(37,99,235,0.08)] focus-within:border-accent/40" style="animation-delay:80ms">
+
+      <!-- 顶部:品类 -->
+      <div class="flex flex-wrap items-center gap-2 p-1.5">
+        <div class="flex items-center gap-2 flex-1 min-w-[150px] bg-canvas border border-hair rounded-xl px-3">
+          <svg class="w-3.5 h-3.5 text-muted shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 4.5A1.5 1.5 0 0 1 3.5 3h4.1a1.5 1.5 0 0 1 1.06.44l4.9 4.9a1.5 1.5 0 0 1 0 2.12l-3.5 3.5a1.5 1.5 0 0 1-2.12 0l-4.9-4.9A1.5 1.5 0 0 1 2 7.6V4.5Z" stroke="currentColor" stroke-width="1.3"/><circle cx="5.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          <input id="category" type="text" placeholder="Product category (e.g., Wireless Earbuds)"
+            class="w-full bg-transparent py-2.5 text-[13px] placeholder:text-muted/60 focus:outline-none" />
+        </div>
+        <div id="inputLangWrap" class="flex items-center gap-1.5 bg-canvas border border-hair rounded-xl pl-3 pr-2">
+          <svg class="w-3.5 h-3.5 text-muted shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2c1.8 1.6 2.8 3.8 2.8 6S9.8 14.4 8 14c-1.8.4-2.8-1.8-2.8-4S6.2 3.6 8 2Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.2"/></svg>
+          <select id="inputLang" title="What language are you typing in?"
+            class="bg-transparent py-2.5 text-[13px] focus:outline-none cursor-pointer">
+            <option value="">Auto-detect</option>
+            <option value="English">English</option>
+            <option value="中文">中文</option>
+            <option value="日本語">日本語</option>
+            <option value="Español">Español</option>
+            <option value="Deutsch">Deutsch</option>
+            <option value="Français">Français</option>
+            <option value="Português">Português</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 输入:双区 -->
+      <div>
+        <!-- YOUR PRODUCT -->
+        <div class="px-3 border-b border-hair">
+          <p class="font-mono text-[9px] uppercase tracking-wider text-muted pt-2.5 pb-1">Your Product</p>
+          <textarea id="productInfo" maxlength="3000"
+            placeholder="Describe your product, target customers, key features, price range, and what makes it different.&#10;&#10;Example: Wireless earbuds for commuters and remote workers. 40h battery life, ANC, comfortable fit, low-latency mode, priced around $49–$69."
+            class="w-full bg-transparent pb-2.5 text-[14px] leading-relaxed placeholder:text-muted/60 focus:outline-none resize-none"
+            style="min-height:112px"></textarea>
+        </div>
+        <!-- COMPETITOR REVIEWS -->
+        <div class="px-3">
+          <p class="font-mono text-[9px] uppercase tracking-wider text-muted pt-2.5 pb-1">Competitor Reviews</p>
+          <textarea id="reviewInput" maxlength="8000"
+            placeholder="Paste 5–50 competitor reviews. We'll extract pain points, objections, buyer frustrations, and winning angles.&#10;&#10;&quot;Battery dies after 2 hours. Totally useless for travel.&quot;&#10;&quot;The sound is good, but the earbuds hurt after 30 minutes.&quot;&#10;&quot;The case feels cheap and scratches easily.&quot;&#10;&quot;Microphone quality is poor for Zoom calls.&quot;"
+            class="w-full bg-transparent pb-3 text-[14px] leading-relaxed placeholder:text-muted/60 focus:outline-none resize-none"
+            style="min-height:164px"></textarea>
+        </div>
+      </div>
+
+      <!-- 底部操作条 -->
+      <div class="flex flex-wrap items-center justify-between gap-3 p-1.5 pt-2 border-t border-hair">
+        <div class="flex items-center gap-3 pl-1.5 min-w-[200px]">
+          <span class="hidden sm:inline font-mono text-[10px] text-muted/70">⌘ + ↵ run</span>
+          <button id="importBtn" title="Import reviews from .csv or .txt" class="flex items-center gap-1.5 font-mono text-[10px] text-muted hover:text-ink transition-colors">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M8 10V3m0 0L5.5 5.5M8 3l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 12A1.5 1.5 0 0 0 4 13.5h8A1.5 1.5 0 0 0 13.5 12v-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            Import
+          </button>
+          <input id="fileInput" type="file" accept=".csv,.txt" class="hidden" />
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- 每日免费额度进度条 -->
+          <div id="quotaWrap" class="flex items-center gap-2">
+            <div class="text-right leading-tight">
+              <div id="quotaLabel" class="font-mono text-[9px] uppercase tracking-wider text-muted">Free credits today</div>
+              <div id="quotaText" class="font-mono text-[10px] text-ink">— / —</div>
+            </div>
+            <div class="w-20 h-1.5 rounded-full bg-hair overflow-hidden">
+              <div id="quotaBar" class="h-full bg-accent rounded-full transition-all duration-500" style="width:0%"></div>
+            </div>
+            <button id="manageBtn" class="hidden font-mono text-[10px] text-muted hover:text-ink underline underline-offset-2 transition-colors">Manage</button>
+          </div>
+          <button id="runBtn"
+            class="bg-ink text-white rounded-xl px-5 py-2.5 font-medium text-[13px] flex items-center gap-2 hover:bg-ink/90 focus:outline-none focus:ring-2 focus:ring-accent/40 disabled:opacity-40 disabled:cursor-not-allowed transition">
+            <span id="runLabel">Analyze Reviews & Generate Listing</span>
+            <svg id="runArrow" class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg id="runSpinner" class="hidden spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.3" stroke-width="3"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 结果 -->
+    <section id="resultWrap" class="mt-5">
+      <div class="flex items-center justify-between px-1 mb-3 gap-3">
+        <p class="font-mono text-[10px] tracking-[0.2em] uppercase text-muted">Output</p>
+        <div class="flex items-center gap-3">
+          <span id="resultTag" class="font-mono text-[10px] text-muted"></span>
+          <button id="exportBtn" disabled title="Export results" class="flex items-center gap-1.5 font-mono text-[10px] text-muted opacity-40 cursor-not-allowed transition-all">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M8 3v7m0 0L5.5 7.5M8 10l2.5-2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M2.5 12A1.5 1.5 0 0 0 4 13.5h8A1.5 1.5 0 0 0 13.5 12v-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <span id="exportLabel">Export</span>
+          </button>
+          <div class="flex items-center gap-1.5 text-muted">
+            <svg class="w-3.5 h-3.5 shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M8 2c1.8 1.6 2.8 3.8 2.8 6S9.8 14.4 8 14c-1.8.4-2.8-1.8-2.8-4S6.2 3.6 8 2Z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.2"/></svg>
+            <select id="targetLang" title="Output language"
+              class="bg-transparent font-mono text-[10px] text-ink focus:outline-none cursor-pointer">
+              <option value="English">English</option>
+              <option value="中文">中文</option>
+              <option value="日本語">日本語</option>
+              <option value="Español">Español</option>
+              <option value="Deutsch">Deutsch</option>
+              <option value="Français">Français</option>
+              <option value="Português">Português</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="result" class="bg-surface border border-hair rounded-2xl p-6 sm:p-8 min-h-[200px]"></div>
+    </section>
+
+  </main>
+
+<script>
+// ----------------------------------------------------------------------
+// 配置:后台地址(右上角可改,仅存内存)
+// ----------------------------------------------------------------------
+let API_BASE = 'http://localhost:8000';
+let mode = 'copy';
+let isMember = false;
+let _lastCopyText = '';
+let _lastReviewData = null;
+let _reviewInsights = '';
+let _copySections = [];
+
+// 匿名用户 ID:优先持久化到 localStorage(同一浏览器跨刷新保持身份),
+// 若环境不支持(如沙箱预览)则降级为当次会话的内存 ID,不会报错。
+const USER_ID = (() => {
+  const gen = () => 'u_' + (crypto?.randomUUID?.() || Date.now() + '_' + Math.random().toString(36).slice(2));
+  try {
+    let id = localStorage.getItem('outbound_uid');
+    if (!id) { id = gen(); localStorage.setItem('outbound_uid', id); }
+    return id;
+  } catch { return gen(); }
+})();
+
+const $ = (id) => document.getElementById(id);
+const resultEl = $('result');
+
+const COPY_BLOCK = {
+  label: 'Your product',
+  placeholder: 'Describe your product — key features, what makes it different, target customers, and how they use it.\n\ne.g., Wireless earbuds with 40h battery and ANC. Built for commuters and remote workers who need focus without interruption.',
+  tag: 'write-copy',
+};
+const REVIEW_BLOCK = {
+  label: 'Competitor reviews',
+  placeholder: 'Paste 5–50 competitor reviews here. We\'ll extract pain points, objections, and winning angles.\n\ne.g., "Battery dies after 2 hours. Totally useless for travel."',
+  tag: 'review-analysis',
+};
+
+// ----------------------------------------------------------------------
+// 空状态
+// ----------------------------------------------------------------------
+function showEmpty() {
+  const modules = [
+    { label: 'Buyer Pain Points',   note: 'Extracted from competitor reviews'   },
+    { label: 'Title Variations',    note: '4 variants — SEO, Benefit, Short, Premium' },
+    { label: 'Bullet Points',       note: '5 points, FEATURE — Benefit format'  },
+    { label: 'Product Description', note: '150–200 words, buyer-first tone'     },
+    { label: 'Ad Copy Variations',  note: 'Facebook, TikTok, Google'            },
+    { label: 'Hook Lines',               note: '8 scroll-stopping openers'           },
+    { label: 'SEO Keywords',             note: 'Primary, long-tail, buyer-intent'    },
+    { label: 'Customer Reply Templates', note: 'Polite replies for negative reviews' },
+    { label: 'Compliance Notes',         note: 'Policy flags + safer alternatives'   },
+  ];
+  const rows = modules.map((m, i) => `
+    <div class="flex items-center justify-between gap-4 py-2.5 border-b border-hair last:border-0" style="opacity:${1 - i * 0.08}">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-1.5 h-1.5 rounded-full bg-muted/40 shrink-0"></div>
+        <span class="font-mono text-[12px] text-muted truncate">${m.label}</span>
+      </div>
+      <span class="font-mono text-[10px] text-muted/60 shrink-0 hidden sm:block">${m.note}</span>
+    </div>`).join('');
+  resultEl.innerHTML = `
+    <div class="mb-4">
+      <p class="font-mono text-[9px] uppercase tracking-wider text-muted/70 mb-3">What you'll get</p>
+      ${rows}
+    </div>
+    <p class="font-mono text-[10px] text-muted/65 pt-1">Fill in your product and paste competitor reviews above, then click the button.</p>`;
+}
+
+// ----------------------------------------------------------------------
+// 平台选择
+// ----------------------------------------------------------------------
+function getSelectedPlatform() {
+  const btn = document.querySelector('.platform-btn.active');
+  return btn ? btn.dataset.platform : 'Amazon';
+}
+
+function setPlatform(p) {
+  document.querySelectorAll('.platform-btn').forEach((b) => {
+    const active = b.dataset.platform === p;
+    b.classList.toggle('bg-surface', active);
+    b.classList.toggle('shadow-sm', active);
+    b.classList.toggle('text-ink', active);
+    b.classList.toggle('border-ink/20', active);
+    b.classList.toggle('text-muted', !active);
+    b.classList.toggle('border-hair', !active);
+    b.classList.toggle('active', active);
+  });
+  if (p === 'Review') {
+    setMode('review');
+  } else if (mode !== 'copy') {
+    setMode('copy');
+  } else {
+    updateRunBtn();
+  }
+}
+
+document.querySelectorAll('.platform-btn').forEach((b) =>
+  b.addEventListener('click', () => setPlatform(b.dataset.platform))
+);
+
+// ----------------------------------------------------------------------
+// 模式切换
+// ----------------------------------------------------------------------
+function getRunBtnLabel() {
+  return 'Analyze Reviews & Generate Listing';
+}
+
+function updateRunBtn() {
+  $('runLabel').textContent = getRunBtnLabel();
+}
+
+function setMode(m) {
+  mode = m;
+  $('resultTag').textContent = '';
+  _lastCopyText = ''; _lastReviewData = null; setExportBtn(false);
+  updateRunBtn();
+  showEmpty();
+}
+
+
+// 改后台地址
+$('endpointBtn').addEventListener('click', () => {
+  const v = prompt('Backend API URL', API_BASE);
+  if (v && v.trim()) {
+    API_BASE = v.trim().replace(/\/+$/, '');
+    $('endpointLabel').textContent = API_BASE.replace(/^https?:\/\//, '');
+  }
+});
+
+// ----------------------------------------------------------------------
+// 运行
+// ----------------------------------------------------------------------
+function setLoading(on) {
+  $('runBtn').disabled = on;
+  $('runSpinner').classList.toggle('hidden', !on);
+  $('runArrow').classList.toggle('hidden', on);
+  $('runLabel').textContent = on
+    ? (mode === 'review' ? 'Analyzing…' : 'Writing copy…')
+    : getRunBtnLabel();
+  $('statusDot').className = `w-1.5 h-1.5 rounded-full pulse-dot ${on ? 'bg-accent' : 'bg-muted'}`;
+}
+
+function showLoading() {
+  resultEl.innerHTML = `
+    <div class="flex items-center gap-3">
+      <svg class="spin w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-opacity="0.2" stroke-width="3"/><path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+      <p class="font-mono text-[12px] text-muted tracking-wide">Calling the model…</p>
+    </div>`;
+}
+
+function showError(title, detail) {
+  resultEl.innerHTML = `
+    <div class="reveal max-w-[440px]">
+      <div class="inline-flex items-center gap-2 font-mono text-[11px] text-accent-dim uppercase tracking-wider mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent-dim"></span> error
+      </div>
+      <p class="text-[15px] font-medium mb-1.5">${title}</p>
+      <p class="text-[13px] text-muted leading-relaxed">${detail}</p>
+    </div>`;
+}
+
+function scrollToResult() {
+  $('resultWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+async function run() {
+  const productInfo = ($('productInfo')?.value || '').trim();
+  const reviewText  = ($('reviewInput')?.value || '').trim();
+  const category    = $('category').value.trim();
+  if (!productInfo && !reviewText) { ($('reviewInput') || $('productInfo')).focus(); return; }
+
+  setLoading(true);
+  showLoading();
+  $('resultTag').textContent = 'analysis';
+  scrollToResult();
+
+  const controller  = new AbortController();
+  const timer       = setTimeout(() => controller.abort(), 90000);
+  const inputLang   = $('inputLang').value || null;
+  const outputLang  = $('targetLang').value;
+  const platform    = getSelectedPlatform();
+
+  try {
+    if (mode === 'review') {
+      // Review Analysis pill: pure insight extraction
+      const res = await fetch(`${API_BASE}/analyze`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-User-Id': USER_ID },
+        body: JSON.stringify({
+          review_text: reviewText || productInfo,
+          product_category: category || null,
+          language: inputLang,
+          target_language: outputLang,
+          platform: 'Amazon',
+        }),
+        signal: controller.signal,
+      });
+      if (res.status === 402) { await startCheckout(); return; }
+      if (!res.ok) throw new Error(`server returned ${res.status}`);
+      renderReview((await res.json()).data);
+      refreshUsage();
+    } else {
+      // Amazon Listing / Ad Angles: generate copy with reviews as context
+      const competitorContext = reviewText || _reviewInsights || null;
+      const res = await fetch(`${API_BASE}/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-User-Id': USER_ID },
+        body: JSON.stringify({
+          product_info: productInfo || '(See competitor reviews for product context)',
+          product_category: category || null,
+          input_language: inputLang,
+          target_language: outputLang,
+          platform,
+          competitor_insights: competitorContext,
+        }),
+        signal: controller.signal,
+      });
+      if (res.status === 402) { await startCheckout(); return; }
+      if (res.status === 404) {
+        showError('Endpoint not available', 'The backend has no <code class="font-mono text-ink">/generate</code> route yet.');
+        return;
+      }
+      if (!res.ok) throw new Error(`server returned ${res.status}`);
+      const gjson = await res.json();
+      renderCopy(gjson?.data?.copy ?? gjson?.copy ?? '');
+      refreshUsage();
+    }
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      showError('Request timed out', 'The model took too long to respond. Please retry or shorten your input.');
+    } else if (err instanceof TypeError) {
+      showError('Cannot reach the service', `Failed to connect to <code class="font-mono text-ink">${API_BASE}</code>. Make sure the backend is running.`);
+    } else {
+      showError('Request failed', err.message);
+    }
+  } finally {
+    clearTimeout(timer);
+    setLoading(false);
+  }
+}
+$('runBtn').addEventListener('click', run);
+['productInfo', 'reviewInput'].forEach(id => {
+  const el = $(id);
+  if (el) el.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') run(); });
+});
+
+// ----------------------------------------------------------------------
+// 渲染:差评分析
+// ----------------------------------------------------------------------
+const SENTIMENT_CLS = {
+  negative: 'text-red-600 bg-red-50 border-red-100',
+  neutral:  'text-zinc-600 bg-zinc-50 border-zinc-200',
+  mixed:    'text-amber-600 bg-amber-50 border-amber-100',
+};
+const FREQ_CLS = { High: 'text-red-600', Medium: 'text-amber-600', Low: 'text-zinc-400' };
+
+function renderReview(d) {
+  _lastReviewData = null;
+  if (!d) return showError('Empty response', 'The backend did not return a valid analysis. Please retry.');
+  _lastReviewData = d;
+  setExportBtn(true);
+
+  const sentiment = d.overall_sentiment || 'neutral';
+  const sCls = SENTIMENT_CLS[sentiment] || SENTIMENT_CLS.neutral;
+  const sLabel = sentiment.charAt(0).toUpperCase() + sentiment.slice(1);
+  const genuine = d.is_genuine_complaint
+    ? '<span class="font-mono text-[10px] text-zinc-500">Genuine complaint</span>'
+    : '<span class="font-mono text-[10px] text-amber-600">Possibly invalid</span>';
+
+  // Section 1: Top Complaints
+  const complaintsRows = (d.top_complaints || []).map((c, i) => `
+    <tr class="border-b border-hair last:border-0">
+      <td class="py-3 pr-4 text-[13px] font-medium align-top">${i + 1}. ${escapeHtml(c.complaint)}</td>
+      <td class="py-3 pr-4 align-top"><span class="font-mono text-[10px] ${FREQ_CLS[c.frequency_label] || ''}">${c.frequency_label}</span></td>
+      <td class="py-3 text-[12px] text-zinc-500 italic align-top">"${escapeHtml(c.sample_quote)}"</td>
+    </tr>`).join('');
+
+  // Section 2: Pain Point Frequency bars
+  const maxCount = Math.max(1, ...(d.pain_point_frequency || []).map(p => p.count));
+  const freqRows = (d.pain_point_frequency || []).map(p => {
+    const filled = Math.max(1, Math.round((p.count / maxCount) * 8));
+    const bars = Array(8).fill(0).map((_, i) =>
+      `<span class="inline-block w-2 h-3 rounded-sm mr-px ${i < filled ? 'bg-accent' : 'bg-hair'}"></span>`).join('');
+    return `<div class="flex items-center gap-3 py-1.5">
+      <span class="font-mono text-[11px] text-ink w-32 shrink-0 truncate">${escapeHtml(p.label)}</span>
+      <div class="flex items-end">${bars}</div>
+      <span class="font-mono text-[10px] text-muted">${p.count}</span>
+    </div>`;
+  }).join('');
+
+  // Section 3: Expectations vs Reality
+  const expectRows = (d.customer_expectations || []).map(e => `
+    <tr class="border-b border-hair last:border-0">
+      <td class="py-3 pr-6 text-[13px] text-zinc-600 align-top w-1/2">${escapeHtml(e.expected)}</td>
+      <td class="py-3 text-[13px] text-red-700 align-top">${escapeHtml(e.reality)}</td>
+    </tr>`).join('');
+
+  // Section 4: Competitor Weaknesses
+  const weakItems = (d.competitor_weaknesses || []).map(w => `
+    <div class="py-3 border-b border-hair last:border-0">
+      <div class="flex items-start gap-2 mb-1.5">
+        <span class="text-red-500 shrink-0 font-mono text-[11px] mt-0.5">✕</span>
+        <span class="text-[13px] font-medium">${escapeHtml(w.weakness)}</span>
+      </div>
+      <div class="flex items-start gap-2 pl-4">
+        <span class="text-accent shrink-0 font-mono text-[11px] mt-0.5">→</span>
+        <span class="text-[13px] text-zinc-600">${escapeHtml(w.opportunity)}</span>
+      </div>
+    </div>`).join('');
+
+  // Section 5: Improvement Ideas
+  const improveItems = (d.improvement_ideas || []).map((idea, i) => `
+    <li class="flex gap-3 text-[13px] leading-relaxed py-2.5 border-b border-hair last:border-0">
+      <span class="font-mono text-[11px] text-accent shrink-0 mt-0.5">${String(i+1).padStart(2,'0')}</span>
+      <span class="text-zinc-700">${escapeHtml(idea)}</span>
+    </li>`).join('');
+
+  // Section 6: Listing Suggestions
+  const listingItems = (d.listing_suggestions || []).map(ls => `
+    <div class="py-3 border-b border-hair last:border-0">
+      <p class="font-mono text-[9px] uppercase tracking-wider text-amber-600 mb-1">Issue</p>
+      <p class="text-[13px] text-zinc-700 mb-2.5">${escapeHtml(ls.issue)}</p>
+      <p class="font-mono text-[9px] uppercase tracking-wider text-accent mb-1">Fix</p>
+      <p class="text-[13px] text-zinc-700">${escapeHtml(ls.fix)}</p>
+    </div>`).join('');
+
+  // Section 7: Winning Copy Angles
+  const angleCards = (d.winning_copy_angles || []).map((a, i) => `
+    <div class="reveal border border-hair rounded-xl p-4 mb-3" style="animation-delay:${380 + i*70}ms">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>
+          <span class="font-mono text-[11px] font-semibold">${escapeHtml(a.pain_point)}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="angle-copy-btn w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-idx="${i}">${copyIconSvg()}</button>
+          <button class="use-in-copy-btn font-mono text-[10px] text-accent hover:text-accent-dim border border-accent/30 hover:border-accent/60 rounded-lg px-2.5 py-1 transition-colors whitespace-nowrap" data-idx="${i}">→ Use in Copy Gen</button>
+        </div>
+      </div>
+      <ul class="space-y-2">
+        ${a.angle_lines.map(line => `<li class="text-[13px] text-zinc-700 leading-relaxed pl-3 border-l-2 border-hair">${escapeHtml(line)}</li>`).join('')}
+      </ul>
+    </div>`).join('');
+
+  resultEl.innerHTML = `
+    <div class="reveal flex items-center gap-2 mb-6">
+      <span class="px-2.5 py-1 rounded-full border text-[11px] font-medium ${sCls}">${sLabel}</span>
+      ${genuine}
+    </div>
+
+    ${complaintsRows ? `<div class="reveal mb-6" style="animation-delay:50ms">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-mono text-[10px] uppercase tracking-wider text-muted">Top Customer Complaints</p>
+        <button class="sect-copy shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-key="complaints">${copyIconSvg()}</button>
+      </div>
+      <table class="w-full">${complaintsRows}</table>
+    </div>` : ''}
+
+    ${freqRows ? `<div class="reveal mb-6" style="animation-delay:100ms">
+      <p class="font-mono text-[10px] uppercase tracking-wider text-muted mb-3">Pain Point Frequency</p>
+      ${freqRows}
+    </div>` : ''}
+
+    ${expectRows ? `<div class="reveal mb-6" style="animation-delay:150ms">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-mono text-[10px] uppercase tracking-wider text-muted">Customer Expectations vs. Reality</p>
+        <button class="sect-copy shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-key="expect">${copyIconSvg()}</button>
+      </div>
+      <table class="w-full">
+        <thead><tr>
+          <th class="text-left font-mono text-[9px] uppercase tracking-wider text-muted pb-2 pr-6 w-1/2">Expected</th>
+          <th class="text-left font-mono text-[9px] uppercase tracking-wider text-muted pb-2">Reality</th>
+        </tr></thead>
+        <tbody>${expectRows}</tbody>
+      </table>
+    </div>` : ''}
+
+    ${weakItems ? `<div class="reveal mb-6" style="animation-delay:200ms">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-mono text-[10px] uppercase tracking-wider text-muted">Competitor Weaknesses</p>
+        <button class="sect-copy shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-key="weak">${copyIconSvg()}</button>
+      </div>
+      ${weakItems}
+    </div>` : ''}
+
+    ${improveItems ? `<div class="reveal mb-6" style="animation-delay:250ms">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-mono text-[10px] uppercase tracking-wider text-muted">Product Improvement Ideas</p>
+        <button class="sect-copy shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-key="improve">${copyIconSvg()}</button>
+      </div>
+      <ul>${improveItems}</ul>
+    </div>` : ''}
+
+    ${listingItems ? `<div class="reveal mb-6" style="animation-delay:300ms">
+      <div class="flex items-center justify-between mb-3">
+        <p class="font-mono text-[10px] uppercase tracking-wider text-muted">Listing Optimization Suggestions</p>
+        <button class="sect-copy shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-key="listing">${copyIconSvg()}</button>
+      </div>
+      ${listingItems}
+    </div>` : ''}
+
+    ${angleCards ? `<div class="reveal mb-4" style="animation-delay:350ms">
+      <p class="font-mono text-[10px] uppercase tracking-wider text-muted mb-3">Winning Copy Angles</p>
+      ${angleCards}
+    </div>` : ''}
+
+    <div class="reveal pt-2 pb-1" style="animation-delay:460ms">
+      <button id="useAllInsightsBtn"
+        class="w-full py-3.5 rounded-2xl bg-accent text-white font-mono text-[13px] font-medium tracking-wide hover:bg-accent-dim active:scale-[0.99] transition-all shadow-sm shadow-accent/20 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M3 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Use these insights to generate copy
+      </button>
+      <p class="text-center font-mono text-[9px] text-muted/70 mt-2">Switches to Amazon Listing mode · loads all competitor insights</p>
+    </div>
+  `;
+
+  // Section copy buttons
+  const copyPayloads = {
+    complaints: (d.top_complaints || []).map(c => `${c.complaint} (${c.frequency_label}): "${c.sample_quote}"`).join('\n'),
+    expect:     (d.customer_expectations || []).map(e => `Expected: ${e.expected}\nReality:  ${e.reality}`).join('\n\n'),
+    weak:       (d.competitor_weaknesses || []).map(w => `${w.weakness}\n→ ${w.opportunity}`).join('\n\n'),
+    improve:    (d.improvement_ideas || []).map((s, i) => `${i+1}. ${s}`).join('\n'),
+    listing:    (d.listing_suggestions || []).map(ls => `Issue: ${ls.issue}\nFix:   ${ls.fix}`).join('\n\n'),
+  };
+  resultEl.querySelectorAll('.sect-copy').forEach(btn =>
+    btn.addEventListener('click', () => copyText(copyPayloads[btn.dataset.key] || '', btn))
+  );
+
+  // Angle card copy buttons
+  resultEl.querySelectorAll('.angle-copy-btn').forEach(btn => {
+    const a = (d.winning_copy_angles || [])[parseInt(btn.dataset.idx, 10)];
+    if (a) btn.addEventListener('click', () => copyText(a.angle_lines.join('\n'), btn));
+  });
+
+  // "→ Use in Copy Gen" per-angle buttons
+  resultEl.querySelectorAll('.use-in-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      const angle = (d.winning_copy_angles || [])[idx];
+      if (!angle) return;
+      _reviewInsights = buildInsightsForCopyGen(d, angle);
+      setPlatform('Amazon');
+      showInsightsBanner(angle.pain_point);
+    });
+  });
+
+  // "Use all insights" full-width CTA
+  const useAllBtn = document.getElementById('useAllInsightsBtn');
+  if (useAllBtn) {
+    useAllBtn.addEventListener('click', () => {
+      _reviewInsights = buildInsightsForCopyGen(d, null);
+      setPlatform('Amazon');
+      showInsightsBanner('all competitor insights');
+    });
+  }
+}
+
+function buildInsightsForCopyGen(d, focusAngle) {
+  const parts = [];
+  if ((d.top_complaints || []).length)
+    parts.push('Top competitor complaints:\n' +
+      d.top_complaints.map(c => `- ${c.complaint} (${c.frequency_label}): "${c.sample_quote}"`).join('\n'));
+  if ((d.competitor_weaknesses || []).length)
+    parts.push('Competitor weaknesses to capitalize on:\n' +
+      d.competitor_weaknesses.map(w => `- ${w.weakness} → ${w.opportunity}`).join('\n'));
+  if (focusAngle)
+    parts.push(`Winning copy angle — ${focusAngle.pain_point}:\n` +
+      focusAngle.angle_lines.map(l => `- ${l}`).join('\n'));
+  if ((d.listing_suggestions || []).length)
+    parts.push('Listing issues to avoid:\n' +
+      d.listing_suggestions.map(ls => `- ${ls.issue} → Fix: ${ls.fix}`).join('\n'));
+  return parts.join('\n\n');
+}
+
+function showInsightsBanner(painPoint) {
+  const existing = document.getElementById('insightsBanner');
+  if (existing) existing.remove();
+  const banner = document.createElement('div');
+  banner.id = 'insightsBanner';
+  banner.className = 'reveal mx-1.5 mb-2 px-3 py-2 bg-accent/5 border border-accent/25 rounded-xl flex items-center justify-between gap-3';
+  banner.innerHTML = `
+    <div class="flex items-center gap-2 min-w-0">
+      <span class="w-1.5 h-1.5 rounded-full bg-accent shrink-0"></span>
+      <span class="font-mono text-[10px] text-accent truncate">Competitor insights loaded · Angle: ${escapeHtml(painPoint)}</span>
+    </div>
+    <button onclick="clearInsights()" class="font-mono text-[9px] text-muted hover:text-ink transition-colors shrink-0">✕ Clear</button>
+  `;
+  const textarea = $('reviewInput') || $('productInfo');
+  textarea.parentElement.insertBefore(banner, textarea);
+}
+
+function clearInsights() {
+  _reviewInsights = '';
+  const b = document.getElementById('insightsBanner');
+  if (b) b.remove();
+}
+
+// ----------------------------------------------------------------------
+// 渲染:文案生成(按【标题】等固定标记拆分成卡片,逐卡片淡入)
+// ----------------------------------------------------------------------
+/* ── Platform section definitions ─────────────────────────────────────── */
+const PLATFORM_SECTIONS = {
+  Amazon: [
+    { marker: '【买家痛点】', title: 'Buyer Pain Points',        type: 'painpoints' },
+    { marker: '【标题】',    title: 'Title Variations',          type: 'titles'     },
+    { marker: '【五点描述】', title: '5 Bullet Points',          type: 'bullets'    },
+    { marker: '【商品描述】', title: 'Product Description',      type: 'text'       },
+    { marker: '【广告文案】', title: 'Ad Copy Variations',       type: 'adcopy'     },
+    { marker: '【钩子文案】', title: 'Hook Lines',               type: 'hooks'      },
+    { marker: '【关键词】',   title: 'SEO Keywords',             type: 'keywords'   },
+    { marker: '【客服回复】', title: 'Customer Reply Templates', type: 'replies'    },
+    { marker: '【合规提醒】', title: 'Compliance Notes',         type: 'compliance' },
+  ],
+  Shopify: [
+    { marker: '【头条】',      title: 'Headline',           type: 'titles'   },
+    { marker: '【产品页文案】', title: 'Product Page Copy', type: 'text'     },
+    { marker: '【卖点板块】',  title: 'Benefit Sections',   type: 'benefits' },
+    { marker: '【FAQ】',       title: 'FAQ',                type: 'faq'      },
+    { marker: '【邮件文案】',  title: 'Email Copy',         type: 'text'     },
+  ],
+  Ads: [
+    { marker: '【钩子文案】',   title: 'Hook Lines',          type: 'hooks'     },
+    { marker: '【主文案】',    title: 'Primary Text',         type: 'adcopy'    },
+    { marker: '【标题】',      title: 'Headlines',            type: 'headlines' },
+    { marker: '【CTA】',       title: 'CTAs',                 type: 'ctas'      },
+    { marker: '【短视频脚本】', title: 'Short Video Script',  type: 'script'    },
+  ],
+};
+
+function parseCopySections(text) {
+  const platform = getSelectedPlatform();
+  const defs = PLATFORM_SECTIONS[platform] || PLATFORM_SECTIONS.Amazon;
+  const found = defs
+    .map(s => ({ ...s, idx: text.indexOf(s.marker) }))
+    .filter(s => s.idx !== -1)
+    .sort((a, b) => a.idx - b.idx);
+  if (found.length === 0) return [{ title: 'Result', body: text.trim(), type: 'text' }];
+  const result = [];
+  for (let i = 0; i < found.length; i++) {
+    const start = found[i].idx + found[i].marker.length;
+    const end = i + 1 < found.length ? found[i + 1].idx : text.length;
+    const body = text.slice(start, end).trim();
+    if (body) result.push({ title: found[i].title, body, type: found[i].type || 'text' });
+  }
+  const lead = text.slice(0, found[0].idx).trim();
+  if (lead) result.push({ title: 'Notes', body: lead, type: 'text' });
+  return result;
+}
+
+async function copyText(str, btn) {
+  try {
+    await navigator.clipboard.writeText(str);
+  } catch {
+    // 极少数浏览器/非 HTTPS 环境 clipboard API 不可用时的兜底方案
+    const ta = document.createElement('textarea');
+    ta.value = str; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch {}
+    document.body.removeChild(ta);
+  }
+  if (btn) {
+    const original = btn.innerHTML;
+    btn.innerHTML = copiedIconSvg();
+    btn.classList.add('text-accent');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('text-accent'); }, 1400);
+  }
+}
+
+function copyIconSvg() {
+  return `<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 10.5V3.5A1.5 1.5 0 0 1 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`;
+}
+function copiedIconSvg() {
+  return `<svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function copyBtnHtml(extraClass = '') {
+  return `<button class="copy-btn shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors ${extraClass}">${copyIconSvg()}</button>`;
+}
+
+/* ── Copy section sub-renderers ────────────────────────────────────────── */
+
+function _copyItemBtn(text) {
+  return `<button class="copy-item-btn shrink-0 w-7 h-7 rounded-lg border border-hair flex items-center justify-center text-muted hover:text-ink hover:border-ink/30 transition-colors" data-text="${escapeHtml(text)}">${copyIconSvg()}</button>`;
+}
+
+function _renderTitles(body) {
+  const lines = body.split('\n').filter(l => l.trim());
+  const labeled = lines.filter(l => /^(SEO-Focused|Benefit-Driven|Short(?:\s*[&]\s*Punchy)?|Premium|Benefit-Led|Story)\s*:/i.test(l.trim()));
+  if (!labeled.length) return _renderText(body);
+  return labeled.map(line => {
+    const ci = line.indexOf(':');
+    const label = ci > -1 ? line.slice(0, ci).trim() : '';
+    const txt   = ci > -1 ? line.slice(ci + 1).trim() : line.trim();
+    return `<div class="flex items-start justify-between gap-3 py-3 border-b border-hair last:border-0">
+      <div class="min-w-0 flex-1">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-muted block mb-1">${escapeHtml(label)}</span>
+        <span class="text-[14px] text-ink leading-snug">${escapeHtml(txt)}</span>
+      </div>${_copyItemBtn(txt)}</div>`;
+  }).join('');
+}
+
+function _renderBullets(body) {
+  const lines = body.split('\n').filter(l => l.trim());
+  const items = lines.map(l => l.replace(/^[•\-]\s*/, '').trim()).filter(Boolean);
+  if (!items.length) return _renderText(body);
+  return items.map(item => {
+    const dash = item.search(/\s[—–-]\s/);
+    const feat = dash > -1 ? item.slice(0, dash) : '';
+    const ben  = dash > -1 ? item.slice(dash).replace(/^\s*[—–-]\s*/, '') : item;
+    return `<div class="flex items-start gap-3 py-3 border-b border-hair last:border-0">
+      <span class="text-accent font-bold text-[15px] shrink-0 mt-0.5 leading-none">•</span>
+      <div class="flex-1 min-w-0 text-[13px] leading-relaxed">
+        ${feat ? `<span class="font-semibold text-ink">${escapeHtml(feat)}</span><span class="text-muted mx-1.5">—</span>` : ''}
+        <span class="text-zinc-600">${escapeHtml(ben)}</span>
+      </div>${_copyItemBtn(item)}</div>`;
+  }).join('');
+}
+
+function _renderHooks(body) {
+  const items = body.split('\n').map(l => l.replace(/^\d+[\.\)]\s*/, '').trim()).filter(Boolean);
+  return items.map((line, i) => `
+    <div class="flex items-start gap-3 py-3 border-b border-hair last:border-0">
+      <span class="font-mono text-[10px] text-muted shrink-0 mt-0.5">${String(i + 1).padStart(2, '0')}</span>
+      <span class="text-[13px] text-zinc-700 flex-1 leading-relaxed">${escapeHtml(line)}</span>
+      ${_copyItemBtn(line)}</div>`).join('');
+}
+
+function _renderHeadlines(body) { return _renderHooks(body); }
+
+function _renderCTAs(body) {
+  const items = body.split('\n').map(l => l.replace(/^\d+[\.\)]\s*/, '').trim()).filter(Boolean);
+  return items.map(line => `
+    <div class="flex items-center justify-between gap-3 py-2.5 border-b border-hair last:border-0">
+      <span class="text-[14px] text-ink font-medium">${escapeHtml(line)}</span>
+      ${_copyItemBtn(line)}</div>`).join('');
+}
+
+function _renderKeywords(body) {
+  const groupRe = /(Primary Keywords?|Long-Tail Keywords?|Buyer-Intent Keywords?)\s*:\s*([^\n]+)/gi;
+  const groups = [];
+  let m;
+  while ((m = groupRe.exec(body)) !== null) {
+    groups.push({ label: m[1], kws: m[2].split(',').map(k => k.trim()).filter(Boolean) });
+  }
+  if (!groups.length) return _renderText(body);
+  return groups.map(g => `
+    <div class="mb-4 last:mb-0">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-muted">${escapeHtml(g.label)}</span>
+        <button class="copy-item-btn font-mono text-[10px] text-muted hover:text-ink flex items-center gap-1 transition-colors" data-text="${escapeHtml(g.kws.join(', '))}">
+          ${copyIconSvg()}<span>Copy</span></button>
+      </div>
+      <div class="flex flex-wrap gap-1.5">
+        ${g.kws.map(k => `<span class="font-mono text-[11px] bg-canvas border border-hair rounded-lg px-2.5 py-1 leading-snug">${escapeHtml(k)}</span>`).join('')}
+      </div></div>`).join('');
+}
+
+function _renderAdCopy(body) {
+  // Angle-based format: "Pain-point angle:", "Comfort angle:", etc.
+  const angleRe = /^(.+?\bangle\b.*?)\s*:/im;
+  if (angleRe.test(body)) {
+    const blocks = body.split(/\n(?=.+?\bangle\b.*?:)/i).filter(b => b.trim());
+    if (blocks.length > 1) {
+      return blocks.map(block => {
+        const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+        const labelLine = lines[0].replace(/:$/, '').trim();
+        const hook = lines.find(l => /^Hook:/i.test(l))?.replace(/^Hook:\s*/i, '').trim() || '';
+        const bodyT = lines.find(l => /^Body:/i.test(l))?.replace(/^Body:\s*/i, '').trim() || '';
+        const cta  = lines.find(l => /^CTA:/i.test(l))?.replace(/^CTA:\s*/i, '').trim() || '';
+        const copyText = [hook && `Hook: ${hook}`, bodyT && `Body: ${bodyT}`, cta && `CTA: ${cta}`].filter(Boolean).join('\n');
+        return `<div class="mb-3 last:mb-0 border border-hair rounded-xl p-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-muted">${escapeHtml(labelLine)}</span>
+            ${_copyItemBtn(copyText)}
+          </div>
+          ${hook  ? `<div class="flex gap-3 mb-2"><span class="font-mono text-[9px] text-muted/70 w-10 shrink-0 mt-0.5">Hook</span><span class="text-[13px] text-zinc-700 leading-relaxed font-medium">${escapeHtml(hook)}</span></div>` : ''}
+          ${bodyT ? `<div class="flex gap-3 mb-2"><span class="font-mono text-[9px] text-muted/70 w-10 shrink-0 mt-0.5">Body</span><span class="text-[13px] text-zinc-600 leading-relaxed">${escapeHtml(bodyT)}</span></div>` : ''}
+          ${cta   ? `<div class="flex gap-3"><span class="font-mono text-[9px] text-muted/70 w-10 shrink-0 mt-0.5">CTA</span><span class="text-[13px] text-accent font-medium">${escapeHtml(cta)}</span></div>` : ''}
+        </div>`;
+      }).join('');
+    }
+  }
+  // Fallback: platform-based format (Facebook/TikTok/Google)
+  const lines = body.split('\n');
+  const groups = [];
+  let cur = null;
+  for (const line of lines) {
+    const mo = line.match(/^(Facebook(?:\s*[\/]\s*Instagram)?(?:\s*Version)?|TikTok(?:\s*Version)?|Google(?:\s*Search)?)\s*:\s*(.*)/i);
+    if (mo) {
+      if (cur) groups.push(cur);
+      cur = { label: mo[1].replace(/\s*Version\s*/i, '').trim(), lines: [mo[2].trim()].filter(Boolean) };
+    } else if (cur && line.trim()) {
+      cur.lines.push(line.trim());
+    }
+  }
+  if (cur) groups.push(cur);
+  if (!groups.length) return _renderText(body);
+  return groups.map(g => {
+    const txt = g.lines.join('\n');
+    return `<div class="mb-3 last:mb-0 border border-hair rounded-xl p-4">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-muted">${escapeHtml(g.label)}</span>
+        ${_copyItemBtn(txt)}</div>
+      <p class="text-[13px] text-zinc-700 leading-relaxed whitespace-pre-wrap">${escapeHtml(txt)}</p>
+    </div>`;
+  }).join('');
+}
+
+function _renderFAQ(body) {
+  const qaRe = /Q:\s*([^\n]+)\nA:\s*([\s\S]+?)(?=\nQ:|$)/gi;
+  const pairs = [];
+  let m;
+  while ((m = qaRe.exec(body)) !== null) pairs.push({ q: m[1].trim(), a: m[2].trim() });
+  if (!pairs.length) return _renderText(body);
+  return pairs.map(p => `
+    <div class="py-3.5 border-b border-hair last:border-0">
+      <p class="text-[13px] font-semibold text-ink mb-1.5">Q: ${escapeHtml(p.q)}</p>
+      <p class="text-[13px] text-zinc-600 leading-relaxed">A: ${escapeHtml(p.a)}</p>
+    </div>`).join('');
+}
+
+function _renderBenefits(body) {
+  const blocks = body.split(/\n(?=[✦✧★•]|\*\*[^\*])/);
+  if (blocks.length <= 1) return _renderText(body);
+  return blocks.filter(b => b.trim()).map(block => {
+    const ls = block.split('\n').filter(l => l.trim());
+    const head = ls[0].replace(/^[✦✧★•*]+\s*/, '').replace(/\*\*/g, '').trim();
+    const body2 = ls.slice(1).join(' ').trim();
+    return `<div class="py-3.5 border-b border-hair last:border-0">
+      <p class="text-[13px] font-semibold text-ink mb-1.5">✦ ${escapeHtml(head)}</p>
+      <p class="text-[13px] text-zinc-600 leading-relaxed">${escapeHtml(body2)}</p>
+    </div>`;
+  }).join('');
+}
+
+function _renderScript(body) {
+  const lines = body.split('\n');
+  const stages = [];
+  let cur = null;
+  for (const line of lines) {
+    const mo = line.match(/^(Hook|Problem|Solution|Proof|CTA)\s*\([^)]+\)\s*:\s*(.*)/i);
+    if (mo) {
+      if (cur) stages.push(cur);
+      cur = { label: mo[0].split(':')[0].trim(), txt: mo[2].trim() };
+    } else if (cur && line.trim()) cur.txt += ' ' + line.trim();
+  }
+  if (cur) stages.push(cur);
+  if (!stages.length) return _renderText(body);
+  return stages.map(s => `
+    <div class="flex gap-4 py-3 border-b border-hair last:border-0">
+      <div class="shrink-0 w-24">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-muted leading-snug">${escapeHtml(s.label)}</span>
+      </div>
+      <span class="text-[13px] text-zinc-700 leading-relaxed flex-1">${escapeHtml(s.txt)}</span>
+    </div>`).join('');
+}
+
+function _renderPainPoints(body) {
+  // Parse numbered blocks: "1. Label\n   Evidence: ...\n   Opportunity: ..."
+  const blocks = body.split(/\n(?=\d+[\.\)])/);
+  if (blocks.length <= 1) return _renderText(body);
+  return blocks.filter(b => b.trim()).map(block => {
+    const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+    const title = lines[0].replace(/^\d+[\.\)]\s*/, '').trim();
+    const evidence    = lines.find(l => /^Evidence:/i.test(l))?.replace(/^Evidence:\s*/i, '').trim() || '';
+    const opportunity = lines.find(l => /^Opportunity:/i.test(l))?.replace(/^Opportunity:\s*/i, '').trim() || '';
+    return `<div class="py-3.5 border-b border-hair last:border-0">
+      <p class="text-[13px] font-semibold text-ink mb-2">${escapeHtml(title)}</p>
+      ${evidence ? `<div class="flex gap-3 mb-1.5">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-red-400 shrink-0 mt-0.5 w-16 text-right">Evidence</span>
+        <span class="text-[12px] text-zinc-500 italic leading-relaxed">${escapeHtml(evidence)}</span>
+      </div>` : ''}
+      ${opportunity ? `<div class="flex gap-3">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-accent/80 shrink-0 mt-0.5 w-16 text-right">Opportunity</span>
+        <span class="text-[12px] text-zinc-600 leading-relaxed">${escapeHtml(opportunity)}</span>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function _renderReplies(body) {
+  const re = /Template\s+\d+\s*[-–—]\s*([^\n:]+):\s*([\s\S]+?)(?=Template\s+\d+\s*[-–—]|$)/gi;
+  const templates = [];
+  let m;
+  while ((m = re.exec(body)) !== null) {
+    const block = m[2].trim();
+    if (!block) continue;
+    const scenarioMatch = block.match(/^Scenario:\s*([^\n]+)/i);
+    const replyMatch    = block.match(/Reply:\s*([\s\S]+)/i);
+    const scenario = scenarioMatch ? scenarioMatch[1].trim() : '';
+    const reply    = replyMatch    ? replyMatch[1].trim()    : block;
+    templates.push({ label: m[1].trim(), scenario, reply });
+  }
+  if (!templates.length) return _renderText(body);
+  return templates.map(t => `
+    <div class="mb-3 last:mb-0 border border-hair rounded-xl p-4">
+      <div class="flex items-center justify-between mb-2.5">
+        <span class="font-mono text-[9px] uppercase tracking-wider text-muted">${escapeHtml(t.label)}</span>
+        ${_copyItemBtn(t.reply)}
+      </div>
+      ${t.scenario ? `<p class="font-mono text-[10px] text-muted/70 italic mb-2 leading-relaxed">${escapeHtml(t.scenario)}</p>` : ''}
+      <p class="text-[13px] text-zinc-700 leading-relaxed">${escapeHtml(t.reply)}</p>
+    </div>`).join('');
+}
+
+function _renderCompliance(body) {
+  // Try structured Risky / Why / Safer format
+  const hasStructured = /Risky claim:|Why risky:|Safer alternative:/i.test(body);
+  if (hasStructured) {
+    const blocks = body.split(/\n\n+/).filter(b => b.trim());
+    return blocks.map(block => {
+      if (/^ℹ/m.test(block)) {
+        return `<div class="py-2.5 text-[13px] text-zinc-500 italic">${escapeHtml(block.trim())}</div>`;
+      }
+      const lines = block.split('\n').map(l => l.trim()).filter(Boolean);
+      const risky  = lines.find(l => /^Risky claim:/i.test(l))?.replace(/^Risky claim:\s*/i, '').trim() || '';
+      const why    = lines.find(l => /^Why risky:/i.test(l))?.replace(/^Why risky:\s*/i, '').trim() || '';
+      const safer  = lines.find(l => /^Safer alternative:/i.test(l))?.replace(/^Safer alternative:\s*/i, '').trim() || '';
+      if (!risky && !why && !safer) {
+        return `<div class="py-2.5 border-b border-hair last:border-0 text-[13px] text-zinc-700 leading-relaxed">${escapeHtml(block.trim())}</div>`;
+      }
+      return `<div class="py-3.5 border-b border-hair last:border-0">
+        ${risky ? `<div class="flex gap-3 mb-1.5">
+          <span class="font-mono text-[9px] uppercase tracking-wider text-amber-500 shrink-0 mt-0.5 w-16 text-right">Risky</span>
+          <span class="text-[13px] text-amber-700 leading-relaxed">${escapeHtml(risky)}</span>
+        </div>` : ''}
+        ${why ? `<div class="flex gap-3 mb-1.5">
+          <span class="font-mono text-[9px] uppercase tracking-wider text-muted shrink-0 mt-0.5 w-16 text-right">Why</span>
+          <span class="text-[12px] text-zinc-500 leading-relaxed">${escapeHtml(why)}</span>
+        </div>` : ''}
+        ${safer ? `<div class="flex gap-3">
+          <span class="font-mono text-[9px] uppercase tracking-wider text-accent/80 shrink-0 mt-0.5 w-16 text-right">Safer</span>
+          <span class="text-[13px] text-zinc-600 leading-relaxed">${escapeHtml(safer)}</span>
+        </div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  // Fallback: line-by-line (old format)
+  return body.split('\n').filter(l => l.trim()).map(line => {
+    const cls = /^⚠/.test(line) ? 'text-amber-700' : /^ℹ/.test(line) ? 'text-zinc-500 italic' : 'text-zinc-700';
+    return `<div class="py-2.5 border-b border-hair last:border-0 text-[13px] leading-relaxed ${cls}">${escapeHtml(line)}</div>`;
+  }).join('');
+}
+
+function _renderText(body) {
+  return `<p class="text-[14px] text-zinc-700 leading-relaxed whitespace-pre-wrap">${escapeHtml(body)}</p>`;
+}
+
+function _renderSectionBody(s) {
+  switch (s.type) {
+    case 'painpoints': return _renderPainPoints(s.body);
+    case 'titles':     return _renderTitles(s.body);
+    case 'bullets':    return _renderBullets(s.body);
+    case 'hooks':      return _renderHooks(s.body);
+    case 'headlines':  return _renderHeadlines(s.body);
+    case 'ctas':       return _renderCTAs(s.body);
+    case 'keywords':   return _renderKeywords(s.body);
+    case 'adcopy':     return _renderAdCopy(s.body);
+    case 'faq':        return _renderFAQ(s.body);
+    case 'benefits':   return _renderBenefits(s.body);
+    case 'script':     return _renderScript(s.body);
+    case 'replies':    return _renderReplies(s.body);
+    case 'compliance': return _renderCompliance(s.body);
+    default:           return _renderText(s.body);
+  }
+}
+
+/* ── renderCopy ─────────────────────────────────────────────────────────── */
+function renderCopy(text) {
+  _lastCopyText = '';
+  _copySections = [];
+  if (!text) return showError('Empty response', 'The backend did not return any copy.');
+  _lastCopyText = text;
+  setExportBtn(true);
+  _copySections = parseCopySections(text);
+
+  const cards = _copySections.map((s, i) => {
+    const isCompliance = s.type === 'compliance';
+    return `
+    <div class="reveal mb-4 border border-hair rounded-2xl overflow-hidden" style="animation-delay:${i * 60}ms">
+      <div class="flex items-center justify-between px-5 py-3 ${isCompliance ? 'bg-amber-50/60 border-b border-amber-100' : 'bg-canvas border-b border-hair'}">
+        <p class="font-mono text-[10px] uppercase tracking-wider ${isCompliance ? 'text-amber-600' : 'text-muted'}">${escapeHtml(s.title)}</p>
+        <button class="section-copy-btn shrink-0 w-7 h-7 rounded-lg border ${isCompliance ? 'border-amber-200 text-amber-500 hover:text-amber-700 hover:border-amber-300' : 'border-hair text-muted hover:text-ink hover:border-ink/30'} flex items-center justify-center transition-colors" data-section-idx="${i}">${copyIconSvg()}</button>
+      </div>
+      <div class="px-5 py-4 ${isCompliance ? 'bg-amber-50/20' : ''}">
+        ${_renderSectionBody(s)}
+      </div>
+    </div>`;
+  }).join('');
+
+  resultEl.innerHTML = `
+    <div class="reveal flex justify-end mb-3">
+      <button id="copyAllBtn" class="font-mono text-[10px] text-muted hover:text-ink flex items-center gap-1.5 transition-colors">
+        ${copyIconSvg()} Copy all sections
+      </button>
+    </div>
+    ${cards}`;
+
+  resultEl.querySelectorAll('.section-copy-btn').forEach(btn => {
+    const idx = parseInt(btn.dataset.sectionIdx, 10);
+    btn.addEventListener('click', () => copyText(_copySections[idx]?.body || '', btn));
+  });
+  resultEl.querySelectorAll('.copy-item-btn').forEach(btn =>
+    btn.addEventListener('click', () => copyText(btn.dataset.text || '', btn))
+  );
+  $('copyAllBtn').addEventListener('click', (e) => copyText(text.trim(), e.currentTarget));
+}
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+// ----------------------------------------------------------------------
+// 订阅 / 用量
+// ----------------------------------------------------------------------
+async function startCheckout() {
+  showError('Daily free quota reached', 'Redirecting to secure checkout… Upgrade to Pro for unlimited usage ($9.90 / month).');
+  try {
+    const res = await fetch(`${API_BASE}/create-checkout-session`, {
+      method: 'POST',
+      headers: { 'X-User-Id': USER_ID },
+    });
+    if (!res.ok) throw new Error(`server returned ${res.status}`);
+    const { url } = await res.json();
+    if (url) window.location.href = url;          // 跳转到 Stripe 托管的收银台
+    else throw new Error('no checkout URL returned');
+  } catch (err) {
+    showError('Could not start checkout', `Failed to create a checkout session: ${err.message}. Make sure Stripe is configured on the backend.`);
+  }
+}
+
+let _usageReqId = 0;
+async function refreshUsage() {
+  const myReqId = ++_usageReqId; // 给这次请求编号
+  try {
+    const res = await fetch(`${API_BASE}/usage`, { headers: { 'X-User-Id': USER_ID } });
+    if (!res.ok) return;
+    const u = await res.json();
+    if (myReqId !== _usageReqId) return; // 丢弃过期响应,避免乱序覆盖新状态
+    isMember = u.is_member;
+    const label = $('quotaLabel'), txt = $('quotaText'), bar = $('quotaBar');
+    if (u.is_member) {
+      label.textContent = 'Pro · Unlimited';
+      label.className = 'font-mono text-[9px] uppercase tracking-wider text-accent';
+      txt.textContent = 'Unlimited';
+      bar.style.width = '100%';
+      $('manageBtn').classList.remove('hidden');
+    } else {
+      const used = u.chars_used ?? 0;
+      const limit = u.limit ?? 0;
+      const pct = limit ? Math.min(100, Math.round((used / limit) * 100)) : 0;
+      label.textContent = 'Daily Free Quota';
+      label.className = 'font-mono text-[9px] uppercase tracking-wider text-muted';
+      txt.innerHTML = `<span class="font-semibold">${used.toLocaleString()}</span> / ${limit.toLocaleString()}`;
+      bar.style.width = pct + '%';
+      // 额度快用完时进度条变红提醒
+      bar.className = `h-full rounded-full transition-all duration-500 ${pct >= 85 ? 'bg-red-500' : 'bg-accent'}`;
+      $('manageBtn').classList.add('hidden');
+    }
+  } catch { /* 后台未启动时静默,不打扰 */ }
+}
+
+// 从 Stripe 返回时的提示
+function handlePaymentReturn() {
+  const p = new URLSearchParams(location.search);
+  const paid = p.get('paid');
+  if (!paid) return;
+  history.replaceState({}, '', location.pathname); // 清掉 URL 参数
+  if (paid === 'success') {
+    showToast('Subscription active — unlimited usage unlocked ✦');
+    // 付款后 webhook 需要一点时间写进数据库,轮询最多 5 次,每次间隔 2 秒
+    let attempts = 0;
+    const poll = setInterval(async () => {
+      attempts++;
+      await refreshUsage();
+      if (isMember || attempts >= 5) clearInterval(poll);
+    }, 2000);
+  } else if (paid === 'cancel') {
+    showToast('Checkout canceled — you can subscribe anytime');
+  }
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white text-[13px] px-4 py-2.5 rounded-xl shadow-lg z-50 reveal';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+async function openPortal() {
+  try {
+    const res = await fetch(`${API_BASE}/create-portal-session`, {
+      method: 'POST',
+      headers: { 'X-User-Id': USER_ID },
+    });
+    if (!res.ok) throw new Error(`server returned ${res.status}`);
+    const { url } = await res.json();
+    if (url) window.location.href = url;
+    else throw new Error('no portal URL returned');
+  } catch (err) {
+    showToast(`Could not open subscription management: ${err.message}`);
+  }
+}
+
+// ----------------------------------------------------------------------
+// 文件导入 / 导出
+// ----------------------------------------------------------------------
+function setExportBtn(enabled) {
+  const btn = $('exportBtn');
+  if (!btn) return;
+  btn.disabled = !enabled;
+  btn.classList.toggle('opacity-40', !enabled);
+  btn.classList.toggle('cursor-not-allowed', !enabled);
+  btn.classList.toggle('hover:text-ink', enabled);
+  $('exportLabel').textContent = enabled
+    ? (mode === 'copy' ? 'Export .txt' : 'Export .csv')
+    : 'Export';
+}
+
+function parseCSVLine(line) {
+  const cells = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') {
+      if (inQ && line[i + 1] === '"') { cur += '"'; i++; } else inQ = !inQ;
+    } else if (c === ',' && !inQ) { cells.push(cur.trim()); cur = ''; }
+    else cur += c;
+  }
+  cells.push(cur.trim());
+  return cells;
+}
+
+$('importBtn').addEventListener('click', () => $('fileInput').click());
+$('fileInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    let text = ev.target.result.trim();
+    if (ext === 'csv') {
+      const lines = text.split(/\r?\n/).filter(l => l.trim());
+      if (lines.length > 1) {
+        const headers = parseCSVLine(lines[0]);
+        // 优先匹配含 review/content/description 等字样的列，否则取第一列
+        const colIdx = Math.max(0, headers.findIndex(h =>
+          /review|content|description|text|comment|feedback|product|usp|title/i.test(h)));
+        text = lines.slice(1)
+          .map(l => parseCSVLine(l)[colIdx] || '')
+          .filter(v => v).join('\n\n');
+      }
+    }
+    const val = text.slice(0, 8000);
+    $('reviewInput').value = val;
+  };
+  reader.readAsText(file, 'UTF-8');
+  e.target.value = ''; // 允许重复选同一文件
+});
+
+function dlFile(content, filename, mime) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type: mime }));
+  a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function escapeCSVCell(v) {
+  const s = String(v ?? '');
+  return /[,"\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+}
+
+$('exportBtn').addEventListener('click', () => {
+  if (mode === 'copy') {
+    if (!_lastCopyText) return;
+    dlFile(_lastCopyText, 'copy_output.txt', 'text/plain;charset=utf-8');
+  } else {
+    if (!_lastReviewData) return;
+    const d = _lastReviewData;
+    const rows = [
+      ['Field', 'Value'],
+      ['Overall Sentiment', d.overall_sentiment],
+      ['Genuine Complaint', d.is_genuine_complaint ? 'Yes' : 'No'],
+      ['', ''],
+    ];
+    if ((d.top_complaints || []).length) {
+      rows.push(['TOP COMPLAINTS', '']);
+      d.top_complaints.forEach((c, i) => {
+        rows.push([`Complaint ${i+1}`, c.complaint], ['  Frequency', c.frequency_label], ['  Sample Quote', c.sample_quote], ['', '']);
+      });
+    }
+    if ((d.competitor_weaknesses || []).length) {
+      rows.push(['COMPETITOR WEAKNESSES', '']);
+      d.competitor_weaknesses.forEach((w, i) => {
+        rows.push([`Weakness ${i+1}`, w.weakness], ['  Opportunity', w.opportunity], ['', '']);
+      });
+    }
+    if ((d.improvement_ideas || []).length) {
+      rows.push(['PRODUCT IMPROVEMENT IDEAS', '']);
+      d.improvement_ideas.forEach((s, i) => rows.push([`Idea ${i+1}`, s]));
+      rows.push(['', '']);
+    }
+    if ((d.listing_suggestions || []).length) {
+      rows.push(['LISTING OPTIMIZATION', '']);
+      d.listing_suggestions.forEach((ls, i) => {
+        rows.push([`Issue ${i+1}`, ls.issue], ['  Fix', ls.fix], ['', '']);
+      });
+    }
+    if ((d.winning_copy_angles || []).length) {
+      rows.push(['WINNING COPY ANGLES', '']);
+      d.winning_copy_angles.forEach(a => {
+        rows.push([`Angle: ${a.pain_point}`, '']);
+        a.angle_lines.forEach((l, i) => rows.push([`  Line ${i+1}`, l]));
+        rows.push(['', '']);
+      });
+    }
+    const csv = '﻿' + rows.map(r => r.map(escapeCSVCell).join(',')).join('\r\n');
+    dlFile(csv, 'review_analysis.csv', 'text/csv;charset=utf-8');
+  }
+});
+
+// ----------------------------------------------------------------------
+// 初始化
+// ----------------------------------------------------------------------
+setPlatform('Amazon');
+showEmpty();
+$('manageBtn').addEventListener('click', openPortal);
+handlePaymentReturn();
+refreshUsage();
+</script>
+</body>
+</html>
